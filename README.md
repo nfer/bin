@@ -1,2 +1,1 @@
-# bin
-linux tool sets
+# linux tool sets

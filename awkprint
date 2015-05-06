@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ -t 0 ] ; then
+	echo "This shell has a std-input, so we're not in batch mode."
+	echo "USAGE: 'OTHER_CMD | $(getProgName) COMMAND'"
+	echo "e.g.   'ls -l | $(getProgName) 9'"
+	exit 1
+fi
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) COMMAND"
+	exit 1
+fi
+
+awk '{print $'$1'}'

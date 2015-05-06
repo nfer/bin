@@ -1,0 +1,37 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) COMMAND"
+	exit 1
+fi
+
+FILE=`which $1`
+if [ $? != 0 ] ; then
+	echo "$1: command not found"
+	exit 1
+fi
+echo -e $FILE"\c"
+
+FILELS=`ls -l $FILE`
+TYPE=${FILELS:0:1}
+
+while [ "$TYPE" == "l" ] ; do
+	FILEPATH=${FILE%/*}
+
+	FILE=${FILELS#* -> }
+	if [ "${FILE:0:1}" != "/" ] ; then
+		FILE=$FILEPATH"/"$FILE
+	fi
+	echo -e " -> "$FILE"\c"
+
+	FILELS=`ls -l $FILE`
+	TYPE=${FILELS:0:1}
+done
+echo ""
