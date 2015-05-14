@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) FILE"
+	exit 1
+fi
+
+cat $1 | grep -v "^[ \t]*#" | grep -v ^$
