@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 2 ] ; then
+	echo "USAGE: $(getProgName) DST SRC"
+	exit 1
+fi
+
+cp $2 $1
