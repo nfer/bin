@@ -1,0 +1,18 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 2 ] ; then
+	echo "USAGE: $(getProgName) A B"
+	exit 1
+fi
+
+TEMP_FILE=./temp_`date "+%F"`
+mv $2 $TEMP_FILE
+mv $1 $2
+mv $TEMP_FILE $1

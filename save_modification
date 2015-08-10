@@ -1,0 +1,12 @@
+#!/bin/bash
+
+TEMP_DIR=~/temp_`date "+%F"`
+
+if [ -d $TEMP_DIR ] ; then
+	echo "folder $TEMP_DIR exist, you need MERGE or DELETE it first.";
+	exit 0;
+fi
+
+mkdir $TEMP_DIR
+
+svn st -q | awk '{print $2}' | xargs -i cp {} --parents $TEMP_DIR/ -v
