@@ -8,6 +8,7 @@ function getProgName()
 }
 
 if [ $# != 1 ] ; then
+	echo "cat conf FILE without comment and blank lines"
 	echo "USAGE: $(getProgName) FILE"
 	exit 1
 fi

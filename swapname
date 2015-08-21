@@ -9,6 +9,7 @@ function getProgName()
 
 if [ $# != 2 ] ; then
 	echo "USAGE: $(getProgName) A B"
+	echo "swap content between A and B"
 	exit 1
 fi
 

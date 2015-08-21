@@ -8,8 +8,7 @@ function getProgName()
 }
 
 if [ -t 0 ] ; then
-	echo "This shell has a std-input, so we're not in batch mode."
-	echo "USAGE: 'OTHER_CMD | $(getProgName) COMMAND'"
+	echo "USAGE: Please use this tool in pipe mode like: 'OTHER_CMD | $(getProgName) NUMBER'"
 	echo "e.g.   'ls -l | $(getProgName) 9'"
 	exit 1
 fi
