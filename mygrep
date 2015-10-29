@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function getProgName()
+{
+  FULLNAME=$0
+  FILENAME=${FULLNAME##*/}
+  echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+  echo "USAGE: $(getProgName) STRING"
+  exit 1
+fi
+
+grep --exclude-dir=.svn --exclude-dir=.git --colo $1 ./ -nRI
