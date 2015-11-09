@@ -9,8 +9,8 @@ function getProgName()
 
 if [ $# != 2 ] ; then
 	echo "USAGE: $(getProgName) DST SRC"
-	echo "  mv file reversely, from param2 to param1"
+	echo "  like cp, but copy file reversely, from param2 to param1"
 	exit 1
 fi
 
-mv $2 $1
+cp $2 $1

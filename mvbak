@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) file"
+	echo "  do the same as: 'mv file file_bak' or 'mv file_bak file'"
+	exit 1
+fi
+
+ORI_FILE=$1
+
+if [[ "$ORI_FILE" == *_bak ]]; then
+	echo "The input is already a bak file, cut the '_bak' suffix"
+	NEW_FILE=${ORI_FILE:0:-4}
+else
+	echo "The input is not a bak file, add the '_bak' suffix"
+	NEW_FILE=$ORI_FILE"_bak"
+fi
+
+set -x
+mv $ORI_FILE $NEW_FILE
