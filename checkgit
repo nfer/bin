@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) PATH"
+	echo "  check a git path whether has something changed or not"
+	exit 1
+fi
+
+PATH=$1
+PATH=${PATH::-4}
+
+cd $PATH
+ahead=`/usr/bin/git status | /bin/grep 'Your branch is ahead of'`
+if [[ "$ahead"x != ""x ]]; then
+	echo "$PATH git repository is ahead."
+fi
+
+untracked=`/usr/bin/git status -s | /bin/grep '??'`
+if [[ "$untracked"x != ""x ]]; then
+	echo "$PATH git repository has untracked files."
+fi
+
+modified=`/usr/bin/git status | /bin/grep 'modified:'`
+if [[ "$modified"x != ""x ]]; then
+	echo "$PATH git repository has modified files."
+fi
