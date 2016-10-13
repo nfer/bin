@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) PATH"
+	echo "  find git path and check it's status"
+	exit 1
+fi
+
+PATH=$1
+/usr/bin/find $PATH -name .git | /usr/bin/xargs -i ~/bin/checkgit {}
