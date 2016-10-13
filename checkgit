@@ -18,11 +18,11 @@ PATH=${PATH::-4}
 
 cd $PATH
 version=`/usr/bin/git log --oneline -n1`
-echo "$PATH git version: $version."
+echo -e "$PATH \033[40;33mgit version: $version.\033[0m"
 
 ahead=`/usr/bin/git status | /bin/grep 'Your branch is ahead of'`
 if [[ "$ahead"x != ""x ]]; then
-	echo "$PATH git repository is ahead."
+	echo -e "$PATH \033[40;32mgit repository is ahead.\033[0m"
 fi
 
 untracked=`/usr/bin/git status -s | /bin/grep '??'`
@@ -32,5 +32,5 @@ fi
 
 modified=`/usr/bin/git status | /bin/grep 'modified:'`
 if [[ "$modified"x != ""x ]]; then
-	echo "$PATH git repository has modified files."
+	echo -e "$PATH \033[40;31mgit repository has modified files.\033[0m"
 fi
