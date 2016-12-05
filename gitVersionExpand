@@ -1,0 +1,35 @@
+#!/bin/bash
+
+START=0
+END=99999999
+if [ $# == 2 ] ; then
+	echo "expand git version on range $1 - $2"
+	START=$1
+	END=$2
+fi
+
+PROJNAME=`pwd | xargs -i basename {}`
+
+VERSIONS=`git log --reverse --oneline | awk '{print $1}'`
+index=0
+for ver in $VERSIONS; do
+	((index+=1))
+	if [[ $index -lt $START ]]; then
+		continue
+	fi
+	if [[ $index -gt $END ]]; then
+		break
+	fi
+
+	VERFOLDER=~/bak/${PROJNAME}/${index}_${ver}/
+	LOG=`git log $ver --oneline -n1`
+
+	git checkout -b $ver $ver
+	mkdir -p $VERFOLDER
+	echo $LOG > $VERFOLDER/expand_version.txt
+	cp -rf . $VERFOLDER
+	git checkout master
+	git br -d $ver
+done
+
+echo "done"
