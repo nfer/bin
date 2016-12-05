@@ -9,6 +9,8 @@ if [ $# == 2 ] ; then
 fi
 
 PROJNAME=`pwd | xargs -i basename {}`
+# current branch, no always 'master'
+CURBRANCH=`git branch | awk '{print $2}'`
 
 VERSIONS=`git log --reverse --oneline | awk '{print $1}'`
 index=0
@@ -28,7 +30,7 @@ for ver in $VERSIONS; do
 	mkdir -p $VERFOLDER
 	echo $LOG > $VERFOLDER/expand_version.txt
 	cp -rf . $VERFOLDER
-	git checkout master
+	git checkout $CURBRANCH
 	git br -d $ver
 done
 
