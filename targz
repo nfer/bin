@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+# check args count
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) FOLDER"
+	echo "  tar czf FOLDER.tgz FOLDER"
+	exit 1
+fi
+
+FOLDER=$1
+
+# check arg only folder
+if [ -f $FOLDER ] ; then
+	echo "The FOLDER MUST be a folder but not a file!"
+	exit 1
+fi
+
+# check working directory
+PWD=`pwd`
+REALPATH=`realpath $FOLDER`
+DIRNAME=`dirname $REALPATH`
+if [ $PWD != $DIRNAME ]; then
+	echo "ONLY WORKS in CURRENT directory!"
+	exit 1
+fi
+
+BASENAME=`basename $FOLDER`
+tar czf ${BASENAME}.tgz $FOLDER
+
