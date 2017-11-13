@@ -1,0 +1,53 @@
+#!/bin/bash
+
+GITHUB_BASE_URL='https://github.com/'
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+# check args count
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) GITHUB_REPO_URL"
+	echo "  mkdir USER_FOLDER && git clone GITHUB_REPO_URL"
+	exit 1
+fi
+
+if [ x$GITHUB_BASE_PATH == 'x' ] ; then
+	echo "pls set GITHUB_BASE_PATH env first"
+	exit 1
+fi
+
+URL=$1
+if [[ "$URL" != ${GITHUB_BASE_URL}* ]]; then
+	echo "not github url"
+	exit 1
+fi
+
+# remove github base url
+URI=${URL:${#GITHUB_BASE_URL}}
+# remove parameters
+URI=${URI%%\?*}
+
+OLD_IFS=$IFS && IFS='\/' PATH_ARR=($URI) && IFS=$OLD_IFS
+# check path count
+if [ ${#PATH_ARR[@]} == 1 ] ; then
+	echo "not work on github user/organization profile"
+	exit 1
+fi
+
+USER=${PATH_ARR[0]}
+REPO=${PATH_ARR[1]}
+REPO_URL=${GITHUB_BASE_URL}${USER}/${REPO}
+
+cd $GITHUB_BASE_PATH
+mkdir -p $USER && cd $USER
+if [[ -d $REPO ]]; then
+	cd $REPO
+	echo "repo exist, path: `pwd`"
+else
+	git clone $REPO_URL
+fi
