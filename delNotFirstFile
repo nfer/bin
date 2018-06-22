@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function getProgName()
+{
+	FULLNAME=$0
+	FILENAME=${FULLNAME##*/}
+	echo $FILENAME
+}
+
+if [ $# != 1 ] ; then
+	echo "USAGE: $(getProgName) COMMAND"
+	exit 1
+fi
+
+FILE=$1
+
+find $FILE -type f | awk '{if (NR != 1)print }' | xargs -i rm -v {}
